@@ -1,9 +1,6 @@
 import re
-import gi
 import os
- 
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+
 
 # Extracts relevant data from .desktop files
 # .desktop files contain app metadata on xdg conforming desktop systems 
@@ -65,5 +62,40 @@ def extractData(keyList, filePath):
                     data.update(fileData)
 
         return data
+
+
+
+def getDataString(filePath, key):
+
+    dataStr = ""
+    with open(filePath) as desktopFile:       # Open file
+        #check if there is a current value in data dictionary 
+        for line in desktopFile:   # Get line of file
+            
+            if "[Desktop Action" in line:
+                print ("END")
+                return data
+            success = False                
+            entry = re.findall(f"^{key}=", line)           # Regex search line of file for a string that matches data dictionary key
+
+            if entry:                                        # when a match is found: remove line end, and remove the key to give a newValue to record in data dictionary
+                success = True
+                removeEndLine = line.replace('\n','')                
+                newValue = re.sub(r'^.*?=', '', removeEndLine)
+          
+            if success:                
+                if newValue != "None":
+                    if newValue.find(';') > -1:
+                        listItem = newValue.split(';')
+                    else:
+                        listItem = newValue         
+                    dataStr = listItem
+             
+    
+    return dataStr
+     
+
+
+
 
 

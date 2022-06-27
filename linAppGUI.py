@@ -14,6 +14,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 
 #TODO store globals list in a config file, perhaps use strings for keylist is they are immutable?
 
+#https://askubuntu.com/questions/342950/how-do-i-create-a-desktop-entry-to-launch-a-python-script do /bin/ suggestion
 #list of tags used in desktop entry files, 
 keyList = [ 'Name', 'Categories', 'Exec', 'Icon', 'Actions' ]
 

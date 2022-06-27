@@ -1,7 +1,14 @@
 import subprocess
 import multiprocessing
 import os
+import guestAppWatchdog
 
+#sys.argv[1] = File Source
+guestAppsDir = "/usr/share/applications/"
+#sys.argv[2] = File Destination
+localGuestAppsDir = "/home/user/Projects/LinuxAppBox/GuestAppFiles/"
+#sys.argv[3] = File Extension
+fileExtenstion = ".desktop"
 
 #TODO
 
@@ -43,6 +50,11 @@ def distroboxList():
 def distroboxList(name):
 
     subprocess.run(f"distrobox-stop {name} --yes", shell=True)
+
+def execute({command}):
+
+    subprocess.run(f"{command}", shell=True)
+   
 
 
 
