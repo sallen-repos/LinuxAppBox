@@ -17,18 +17,19 @@ def onCreated(event):
     srcPath = event.src_path
     if os.path.isfile(srcPath):
         if sys.argv[3] in srcPath: 
-            srcSplit = os.path.split(event.src_path)  
+            filePath,fileName  = os.path.split(event.src_path)  
             #print (srcPath)
             
             #srcSplit[0] = path
-            #srcSplit[0] = fileName
+            #srcSplit[1] = fileName
+            print (fileName)
+            #os.popen(f"cp {srcPath} {sys.argv[2]}appbox-{srcSplit[1]}")
 
-            os.popen(f"cp {srcPath} {sys.argv[2]}appbox-{srcSplit[1]}")
 
-
-            #execStr = getDataString(srcPath, 'Exec') 
-           # print (f"Name={execStr}")
-           # subprocess.run(f"distrobox-export --app {execStr}  --export-path {sys.argv[2]}", shell=True) 
+            #execStr = getDataString(srcPath, 'Exec')
+            iconStr = getDataString(srcPath, 'Icon')
+            #print (f"Name={execStr}")
+            subprocess.run(f"distrobox-export --app {fileName} --force --icon {iconStr} --export-path {sys.argv[2]}", shell=True) 
 
 
         # ToDo create appbox-Data file
@@ -46,18 +47,30 @@ def onDeleted(event):
         # delete appData file on host! [ distrobox-export --app <AppName> --delete  -ep sys.argv[2] ]
 
 
-def onMoved(event):    
-    destPath = os.path.split(event.dest_path)
+def onMoved(event): 
+   
+    if "bak" in event.src_path:
+        return
+
     if sys.argv[3] in event.src_path:
         #print(f"{event.src_path}\n{event.dest_path}")         
-        srcPath = os.path.split(event.src_path)
-        destPath = os.path.split(event.dest_path)
-        if srcPath[0] != destPath[0]:
-            print(f"File {srcPath[1]} Moved \n From: {srcPath[0]} To: {destPath[0]}")
-        if srcPath[1] != destPath[1]:
-            print(f"File Renamed\nFrom: {srcPath[1]} To: {destPath[1]}")            
-    elif ".txt" in destPath[1]:
-         print(f"File Updated: {destPath[1]}")
+        srcPath, oldName = os.path.split(event.src_path)
+        newPath, newName = os.path.split(event.dest_path)
+        if srcPath != newPath:
+            print(f"File {oldName} Moved \n From: {srcPath} To: {newPath}")
+        if oldName != newName:
+            print(f"File Renamed\nFrom: {oldName} To: {newName}")
+            #os.popen(f"cp {newPath}/{newName} {sys.argv[2]}")               
+            #os.popen(f"cp {newPath}/{newName} bak-{newName}")
+
+            iconStr = getDataString(event.dest_path, 'Icon')
+            
+            subprocess.run(f"distrobox-export --app {newName} --force --icon {iconStr} --export-path {sys.argv[2]}", shell=True)   
+            #os.popen(f"mv {newPath}/{newName} {sys.argv[2]}")    
+      
+        elif ".txt" in newName:
+            print(f"File Edited: {newName}")
+            os.popen(f"cp {newPath}/{newName} {sys.argv[2]}")     
 
 
 def getWatchedDir():
