@@ -1,0 +1,10 @@
+#!/bin/sh
+
+which_term(){
+    processData=$(perl -lpe 's/\0/ /g' \ /proc/$(xdotool getwindowpid $(xdotool getactivewindow))/cmdline)
+    
+    ## Enable extended globbing patterns
+     echo ${processData%% *}
+}
+
+which_term;

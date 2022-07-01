@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Ubuntu Terminal
+Type=Application
+Encoding=UTF-8
+Comment=CLI Terminal Emulator
+X-MultipleArgs=false
+Hidden=true
+Exec=xfce4-terminal -e 'sh /home/user/Projects/LinuxAppBox/ello fedora' %U
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
+Terminal=true
+GenericName=Ubuntu Terminal
+
