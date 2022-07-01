@@ -18,7 +18,7 @@ from sudo import run_as_sudo
 
 def main (guest):
 
-    hostTerminal = subprocess.Popen(['sh ShellScripts/Host-Terminal'],
+    hostTerminal = subprocess.Popen(['sh Host-Terminal'],
  stdout=subprocess.PIPE,
  stderr=subprocess.PIPE,
  shell=True).communicate()[0].decode('utf-8').strip()
@@ -27,7 +27,7 @@ def main (guest):
  # (predictably painfull) especially didn't help that .desktop files requires line breaks
  # line breaks require carefull consideration in shell scripts 
 
-    subprocess.Popen(['sh ShellScripts/createDesktopGuestTerminal.sh {guest} {hostTerminal}'],
+    subprocess.Popen([f'sh createDesktopGuestTerminal.sh {guest} {hostTerminal}'],
  stdout=subprocess.PIPE,
  stderr=subprocess.PIPE,
  shell=True)

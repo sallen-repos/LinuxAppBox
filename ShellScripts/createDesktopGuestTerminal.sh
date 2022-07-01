@@ -12,7 +12,7 @@ guest=$1
 
 hostTerminal=$2
 
-destPath="/usr/share/applications/"$guest"-0terminal.desktop"
+destPath="/usr/share/applications/${guest}-0terminal.desktop"
 
 touch tempfile.desktop
 
@@ -24,7 +24,7 @@ Encoding=UTF-8
 Comment=CLI Terminal Emulator
 X-MultipleArgs=false
 Hidden=true
-Exec=${hostTerminal} -e 'sh /home/user/Projects/LinuxAppBox/Guest-Terminal ${guest}' %U
+Exec=${hostTerminal} -e 'sh /home/user/Projects/LinuxAppBox/ShellScripts/Guest-Terminal ${guest}' %U
 Icon=utilities-terminal
 Categories=System;TerminalEmulator;
 Terminal=true
