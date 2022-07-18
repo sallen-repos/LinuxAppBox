@@ -7,33 +7,32 @@ import re
 import sys
 
 from subprocess import Popen, PIPE
-from dataExtractor import extractData
+
 from PIL import Image
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import GObject, Gtk
 from gi.repository.GdkPixbuf import Pixbuf
 
-#TODO store globals list in a config file, perhaps use strings for keylist is they are immutable?
+# This gui tool displays icons from freedesktop desktop entry files
 
-#https://askubuntu.com/questions/342950/how-do-i-create-a-desktop-entry-to-launch-a-python-script do /bin/ suggestion
-#list of tags used in desktop entry files, 
+# Note: .desktop files must be located in the defaultAppDir!
+
+ 
 keyList = [ 'Name', 'Categories', 'Exec', 'Icon', 'Actions' ]
 
 #default directory for desktop entry file location
 
 defaultAppDir =  "/usr/share/applications/"
 
-#subprocess.call(['sh', './hide-terminal.sh', '{terminalWindowId}', '&']) #("nohup  sh /home/user/Projects/LinuxAppBox/hide-terminal.sh {terminalWindowId} &") #(['sh', './hide-terminal.sh', '{terminalWindowId}'])
-
 dictionary = {}
 
-def fillIconView(windowMain, desktopEntryData, listStore):
-    scrolledwindow = windowMain.builder.get_object("scrolled_window")
-
-    #listStore = Gtk.ListStore(Pixbuf, str, str, str) list_store   
+#
+def fillIconView(gtkBuilder, desktopEntryData, listStore):
+    scrolledwindow = gtkBuilder.builder.get_object("scrolled_window")
+ 
     fullListStore = populateListStore(listStore,desktopEntryData, 0)      
-    iconView = windowMain.builder.get_object("icon_view")
+    iconView = gtkBuilder.builder.get_object("icon_view")
     iconView.set_model(fullListStore)
     iconView.set_pixbuf_column(0)
     iconView.set_text_column(1)
@@ -42,50 +41,12 @@ def fillIconView(windowMain, desktopEntryData, listStore):
 
 
 
-def getUserTerminal(line):
-    
-    #string = re.findall(r'^[^ ]+', line)
-
-    print ( line )
-
-
-def onButtonClicked(self):
-
-    label = self.get_label()
-    print (f"{label}") 
-    return "done"    
-
-def addButton(windowMain,num, name, command):
-
-    grid = windowMain.builder.get_object("button_grid")
-
-    button = Gtk.Button(label=f"{name}")
-    button.connect("clicked", onButtonClicked)
-    grid.add(button)
-    grid.insert_row(num)
-    grid.attach(button, 0, num, 1, 1)
-
-def initButtons(windowMain):
-
-
-        
-    addButton(windowMain, 1, "Debian", "")
-    addButton(windowMain, 2, "OpenSuse", "")
-    addButton(windowMain, 3, "Arch", "")
-
-
+#window main sets up gui widgets
 class WindowMain():
 
     def __init__(self):
+       
 
-        #proc = Popen("xdotool getactivewindow", stdout=PIPE, stderr=PIPE, shell=True) 
-        #out, err = proc.communicate()
-        #exitcode = proc.returncode
-        #out = subprocess.call("xdotool getactivewindow", shell=True)
-        #print (err)
-       # print (out)
-       # print (exitcode)
-        #subprocess.call("xdotool windowunmap {out}", shell=True)
 
         # Get GUI Glade file
         self.builder=Gtk.Builder()
@@ -102,40 +63,15 @@ class WindowMain():
 
         listStore = self.builder.get_object("list_store")
         fillIconView(self, guestOneAppData, listStore)
-        
-        grid = self.builder.get_object("button_grid")
-        num = 0
-        name = "Ubuntu"
-        button = Gtk.Button(label=f"{name}")
-        #button.connect("clicked", onButtonClicked)
-        grid.add(button)
-        #grid.insert_row(num)
-        #grid.attach(button, 0, num, 1, 1)
-         
-        #initButtons(self)
 
 
         print (getIconThemePath("firefox"))
         
     def item_activated(self,listStore, treePath):
         
-        execCmd = f"{listStore[treePath][1]}"       #nohup and disown seems like overkill 
-                                                             #but it isn't overkill with chromium!
+        execCmd = f"{listStore[treePath][1]}"      
+                                                            
         os.popen(f"{execCmd}")  
-        #subprocess.run("disown -ah", shell=True) 
-      
-
-#    def launchUbuntu():     
- #       subprocess.run("killall gnome-software", shell=True)
-  #      subprocess.run("podman kill ubuntu", shell=True) 
-#TODO maybe don't kill ubuntu maybe check if running and launch app w/ or w/o db-enter
-#        subprocess.run(""" distrobox enter ubuntu -- bash -l -c '"gnome-software"' """, shell=True)  
-#for some reason `-- bash` needs the space
-
-#    def launchFedora():
- #       subprocess.run("killall gnome-software", shell=True)    
-  #      subprocess.run("podman kill fedora", shell=True)
-   #     subprocess.run(""" distrobox enter fedora -- bash -l -c '"gnome-software"' """, shell=True)
 
       
     
@@ -144,56 +80,30 @@ class WindowMain():
         Gtk.main_quit()
 
 
-#    def on_ubuntu_clicked(self, widget):
-#        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
-#        listStore =  self.builder.get_object("list_store")
-#        listStore.clear()
-#        fillIconView(self, guestAppData, listStore)
+    def on_ubuntu_clicked(self, widget):
+        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
+        listStore =  self.builder.get_object("list_store")
+        listStore.clear()
+        fillIconView(self, guestAppData, listStore)
 
 
-#    def on_fedora_clicked(self, widget):
-#        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
-#        listStore =  self.builder.get_object("list_store")
-#        listStore.clear()
-#        fillIconView(self, guestAppData, listStore)
+    def on_fedora_clicked(self, widget):
+        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
+        listStore =  self.builder.get_object("list_store")
+        listStore.clear()
+        fillIconView(self, guestAppData, listStore)
 
-#    def on_btn3_clicked(self, widget):
-#        listStore =  self.builder.get_object("list_store")
-#        listStore.clear()
+    def on_btn3_clicked(self, widget):
+        listStore =  self.builder.get_object("list_store")
+        listStore.clear()
 
-#        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)        
-#        fillIconView(self, guestAppData, listStore)
+        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)        
+        fillIconView(self, guestAppData, listStore)
 
-#        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)        
-#        fillIconView(self, guestAppData, listStore)
-
-        #print (terminalName)
-        #subprocess.Popen([terminalName, '-e', 'sh /usr/local/bin/ello'])
-        #subprocess.call("xdotool key ctrl+shift+n; sh /usr/local/bin/ello; xdotool key Return", shell=True)
-        #subprocess.Popen([sys.executable, "/usr/local/bin/ello"], shell=True)
-        
-        #os.system("xdotool key ctrl+shift+n; sh /usr/local/bin/ello; xdotool key Return")
-        #subprocess.call("sh /usr/local/bin/ello", shell=True) #xdotool key "ctrl+shift+t"; xdotool type "ls"; xdotool key Return
+        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)        
+        fillIconView(self, guestAppData, listStore)
 
 
-
-#xdotool key "ctrl+shift+t"; xdotool type "ls"; xdotool key Return
-
-        #os.popen("/usr/local/bin/ello")
-        #guestAppData = getMetadataDictionary(defaultAppDir,"appbox", keyList)
-        #fillIconView(self, guestAppData) `
-
-#    def on_ubuntu_clicked(self, widget, t1=multiprocessing.Process(target=launchUbuntu)):
-#        t1.daemon = True
-#        t1.start()
-
-#    def on_fedora_clicked(self, widget, t2=multiprocessing.Process(target=launchFedora)):
-#        t2.daemon = True
-#        t2.start() 
-
-#    def on_btn3_clicked(self, widget, data=None):
-#        print("btn3_clicked")  
-        
     def main(self):
         Gtk.main()
 
@@ -242,6 +152,7 @@ def populateListStore(listStore, data, count):
 
     return listStore
 
+#returns the theme of host or gtk default theme
 def getIconThemePath(iconName):
 
     iconTheme = Gtk.IconTheme.get_default()
@@ -250,6 +161,71 @@ def getIconThemePath(iconName):
     #if iconInfo != None:
         #filePath, filename = os.path.split(iconInfo.get_filename())
     return iconInfo.get_filename()
+
+# Extracts relevant data from .desktop files
+# .desktop files contain app metadata on xdg conforming desktop systems 
+# xdg/freedesktop: (most linux desktop environments fully comply, all most all partially comply or have compatibility modules)
+# on systems that do not comply LinuxAppBox still makes use of these files for its own purposes
+# on non-conforming systems guest apps may not be discoverable by the host operating system
+
+#checks if icon is present on system
+def iconIsMissing(iconName):
+    if iconName[0] == '/':
+        if os.path.isfile(iconName):
+            print(f"System Icon {iconName} was Found") 
+            return False
+    try:
+        pixbuf = Gtk.IconTheme.get_default().load_icon(iconName, 48, 0)
+        if not pixbuf:
+             print(f"System Icon {iconName} not Found") 
+             return True
+        return False               
+    except gi.repository.GLib.Error:
+        print(f"System Icon {iconName} not Found") 
+        return True
+
+#extracts data from desktop entry files
+def extractData(keyList, filePath):
+    data = {}
+    with open(filePath) as desktopFile:       # Open file
+        #check if there is a current value in data dictionary 
+        if data.get(filePath) == None:
+            pass  #If value exists there's no reason anything but identical data should be expected so pass to skip this file
+        fileData = {}
+        for line in desktopFile:   # Get line of file
+            if "[Desktop Action" in line:
+                return data
+
+            for key in keyList:    # Get key of data dictionary
+                success = False
+
+                entry = re.findall(f"^{key}=", line)           # Regex search line of file for a string that matches data dictionary key
+
+                if entry:                                        # when a match is found: remove line end,
+                                                                 # then remove the key to give a newValue to record in data dictionary
+                    success = True
+                    removeEndLine = line.replace('\n','')                
+                    newValue = re.sub(r'^.*?=', '', removeEndLine)
+
+                    if key == "Icon":
+                        if iconIsMissing(newValue): 
+                            success = False
+           
+                if success:
+                         
+                    if newValue != "None":
+                        if newValue.find(';') > -1:
+                            listItem = newValue.split(';')
+                        else:
+                            listItem = [f"{newValue}"]          
+                        fileData[key] = listItem
+
+                    data.update(fileData)
+
+        return data
+
+     
+
 
 if __name__ == "__main__":
     application=WindowMain()
