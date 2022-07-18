@@ -1,5 +1,5 @@
 NAME="Ubuntu"
-VERSION="20.04.4 LTS (Focal Fossa)"
+VERSION="20.04.4 LTS (Container Image)"
 ID=ubuntu
 ID_LIKE=debian
 PRETTY_NAME="Ubuntu 20.04.4 LTS"

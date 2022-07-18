@@ -13,12 +13,14 @@ import os
 # most code was implemented in shell scripts as getting sudo priviledges was easier
 
 
+def configureTerminal (guest):
 
-from sudo import run_as_sudo
+    distroboxCreateImage("docker.io/almalinux/8-base", f"{guest}", "", "", "", "", "")
 
-def main (guest):
 
-    hostTerminal = subprocess.Popen(['sh Host-Terminal'],
+    configureTerminal(f"{guest}")
+
+    hostTerminal = subprocess.Popen(['sh ShellScripts/Host-Terminal'],
  stdout=subprocess.PIPE,
  stderr=subprocess.PIPE,
  shell=True).communicate()[0].decode('utf-8').strip()
@@ -32,4 +34,4 @@ def main (guest):
  stderr=subprocess.PIPE,
  shell=True)
 
-main(sys.argv[1])
+configureTerminal(sys.argv[1])

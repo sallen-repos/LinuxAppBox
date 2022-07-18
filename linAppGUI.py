@@ -28,12 +28,12 @@ defaultAppDir =  "/usr/share/applications/"
 
 dictionary = {}
 
-def fillIconView(gtkBuilder, desktopEntryData, listStore):
-    scrolledwindow = gtkBuilder.builder.get_object("scrolled_window")
+def fillIconView(windowMain, desktopEntryData, listStore):
+    scrolledwindow = windowMain.builder.get_object("scrolled_window")
 
     #listStore = Gtk.ListStore(Pixbuf, str, str, str) list_store   
     fullListStore = populateListStore(listStore,desktopEntryData, 0)      
-    iconView = gtkBuilder.builder.get_object("icon_view")
+    iconView = windowMain.builder.get_object("icon_view")
     iconView.set_model(fullListStore)
     iconView.set_pixbuf_column(0)
     iconView.set_text_column(1)
@@ -47,15 +47,31 @@ def getUserTerminal(line):
     #string = re.findall(r'^[^ ]+', line)
 
     print ( line )
-    #terminalName = subprocess.call("ps -o 'cmd=' -p $(ps -o 'ppid=' -p $$)", shell=True)
-    #print(terminalName)
-    #with open('/etc/alternatives/x-terminal-emulator', 'r') as file:
-    #    for line in file.readlines():
-    #        if 'exec' in line:
-     #           string = re.findall(r"'(.*?)'", line)
-     #           print  (string[0])
 
 
+def onButtonClicked(self):
+
+    label = self.get_label()
+    print (f"{label}") 
+    return "done"    
+
+def addButton(windowMain,num, name, command):
+
+    grid = windowMain.builder.get_object("button_grid")
+
+    button = Gtk.Button(label=f"{name}")
+    button.connect("clicked", onButtonClicked)
+    grid.add(button)
+    grid.insert_row(num)
+    grid.attach(button, 0, num, 1, 1)
+
+def initButtons(windowMain):
+
+
+        
+    addButton(windowMain, 1, "Debian", "")
+    addButton(windowMain, 2, "OpenSuse", "")
+    addButton(windowMain, 3, "Arch", "")
 
 
 class WindowMain():
@@ -86,6 +102,17 @@ class WindowMain():
 
         listStore = self.builder.get_object("list_store")
         fillIconView(self, guestOneAppData, listStore)
+        
+        grid = self.builder.get_object("button_grid")
+        num = 0
+        name = "Ubuntu"
+        button = Gtk.Button(label=f"{name}")
+        #button.connect("clicked", onButtonClicked)
+        grid.add(button)
+        #grid.insert_row(num)
+        #grid.attach(button, 0, num, 1, 1)
+         
+        #initButtons(self)
 
 
         print (getIconThemePath("firefox"))
@@ -117,28 +144,28 @@ class WindowMain():
         Gtk.main_quit()
 
 
-    def on_ubuntu_clicked(self, widget):
-        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
-        listStore =  self.builder.get_object("list_store")
-        listStore.clear()
-        fillIconView(self, guestAppData, listStore)
+#    def on_ubuntu_clicked(self, widget):
+#        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
+#        listStore =  self.builder.get_object("list_store")
+#        listStore.clear()
+#        fillIconView(self, guestAppData, listStore)
 
 
-    def on_fedora_clicked(self, widget):
-        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
-        listStore =  self.builder.get_object("list_store")
-        listStore.clear()
-        fillIconView(self, guestAppData, listStore)
+#    def on_fedora_clicked(self, widget):
+#        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
+#        listStore =  self.builder.get_object("list_store")
+#        listStore.clear()
+#        fillIconView(self, guestAppData, listStore)
 
-    def on_btn3_clicked(self, widget):
-        listStore =  self.builder.get_object("list_store")
-        listStore.clear()
+#    def on_btn3_clicked(self, widget):
+#        listStore =  self.builder.get_object("list_store")
+#        listStore.clear()
 
-        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)        
-        fillIconView(self, guestAppData, listStore)
+#        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)        
+#        fillIconView(self, guestAppData, listStore)
 
-        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)        
-        fillIconView(self, guestAppData, listStore)
+#        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)        
+#        fillIconView(self, guestAppData, listStore)
 
         #print (terminalName)
         #subprocess.Popen([terminalName, '-e', 'sh /usr/local/bin/ello'])

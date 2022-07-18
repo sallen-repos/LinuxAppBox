@@ -27,13 +27,13 @@ fileExtenstion = ".desktop"
 #--pre-init-hooks <command>
 
 
-def distroboxCreateImage(source, name, init, preInitHooks, initHooks, volume, additionalFlags):
+def distroboxCreateImage(imageURI, name, init, preInitHooks, initHooks, volume, additionalFlags):
 
-    subprocess.run(f"distrobox-create --image {source} {init} --pull --yes --name {name} {preIniteHooks} {initHooks} {volume} {additionalFlags}", shell=True)
+    subprocess.run(f"distrobox-create --image {imageURI} {init} --pull --yes --name {name} {preInitHooks} {initHooks} {volume} {additionalFlags}", shell=True)
 
-def distroboxCreateClone(origional, name, init, preInitHooks, initHooks, volume, additionalFlags):
+def distroboxCreateClone(srcPath, name, init, preInitHooks, initHooks, volume, additionalFlags):
 
-    subprocess.run(f"distrobox-create --clone {origional} {init} --pull --yes --name {name} {initHooks} {volume} {additionalFlags}", shell=True)
+    subprocess.run(f"distrobox-create --clone {srcPath} {init} --pull --yes --name {name} {initHooks} {volume} {additionalFlags}", shell=True)
 
 def distroboxRemoveImage(name):
 
@@ -51,7 +51,7 @@ def distroboxList(name):
 
     subprocess.run(f"distrobox-stop {name} --yes", shell=True)
 
-def execute({command}):
+def execute(command):
 
     subprocess.run(f"{command}", shell=True)
    
