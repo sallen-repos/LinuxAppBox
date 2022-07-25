@@ -19,7 +19,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 # Note: .desktop files must be located in the defaultAppDir!
 
  
-keyList = [ 'Name', 'Categories', 'Exec', 'Icon', 'Actions' ]
+keyList = [ 'Name', 'Categories', 'Description','Exec', 'Icon', 'Actions' ]
 
 #default directory for desktop entry file location
 
@@ -37,7 +37,7 @@ def fillIconView(gtkBuilder, desktopEntryData, listStore):
     iconView.set_pixbuf_column(0)
     iconView.set_text_column(1)
     iconView.set_tooltip_column(2)
-    iconView.set_text_column(3)   
+    iconView.set_text_column(3) 
 
 
 
@@ -71,9 +71,9 @@ class WindowMain():
         
         execCmd = f"{listStore[treePath][1]}"      
                                                             
-        os.popen(f"{execCmd}")  
+        os.popen(f"{execCmd}")
 
-      
+
     
     def on_window_main_destroy(self, widget, data=None):
         print("on_window_main_destory")
@@ -142,6 +142,8 @@ def populateListStore(listStore, data, count):
                 pixelBuffer = Gtk.IconTheme.get_default().load_icon(iconStr, 48, 0)
 
             lable = data[path]["Name"][0].replace(" (AppBox)", "")  #remove the (appBox) tag from app name
+
+           # desc = data[path]["Description"][0].replace(" (AppBox)", "")  #remove the (appBox) tag from app name
 
             execCmd = re.sub(' %u','',data[path]["Exec"][0], flags=re.IGNORECASE)
                      

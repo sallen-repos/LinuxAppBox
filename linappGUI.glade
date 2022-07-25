@@ -99,6 +99,7 @@
                 <property name="margin">6</property>
                 <property name="model">list_store</property>
                 <signal name="item-activated" handler="item_activated" object="list_store" swapped="no"/>
+                <signal name="item-activated" handler="on_button_press_event" object="list_store" swapped="no"/>
               </object>
             </child>
           </object>

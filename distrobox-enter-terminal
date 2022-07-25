@@ -1,0 +1,9 @@
+#! /bin/bash
+
+#set -m to set job control
+set -m
+
+distrobox-enter $1 --no-workdir -e /home/user/Projects/LinuxAppBox/ShellScripts/Guest-Terminal  $1
+
+
+$SHELL
