@@ -3,7 +3,7 @@
 #set -m to set job control
 set -m
 
-fastfetch --os-file /home/user/Projects/LinuxAppBox/GuestSystemFiles/${1}
+fastfetch --os-file   $HOME/Projects/LinuxAppBox/GuestSystemFiles/${1}
 
 distrobox-enter $1
 

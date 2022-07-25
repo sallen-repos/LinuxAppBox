@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=fedora Terminal
+Type=Application
+Encoding=UTF-8
+Comment=CLI Terminal Emulator
+X-MultipleArgs=false
+Hidden=true
+Exec=sh $HOME/Projects/LinuxAppBox/ShellScripts/Guest-Terminal fedora %U
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
+Terminal=true
+GenericName=fedora Terminal"

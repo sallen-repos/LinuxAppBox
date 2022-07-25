@@ -119,13 +119,13 @@ fi
 # Check icons exist for search searchResultults
 for ((i = 0; i < ${#searchResult[@]}; ++i)); do
  
-icon="papirus-icon-theme-master/ePapirus-Dark/64x64/apps/${searchResult[i]}.svg"
+icon="$HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapirus-Dark/64x64/apps/${searchResult[i]}.svg"
 if test -f "$icon";
 then
    searchResult[i]="${icon} ${searchResult[i]}" 
 # Format element to be the icon file path followed by the package name  
 else
-   searchResult[i]="noIcon.png ${searchResult[i]}"
+   searchResult[i]="$HOME/Projects/Project/LinuxAppBox/AppHub/apphub/noIcon.png ${searchResult[i]}"
 # Insert place holder image
 fi
 done
