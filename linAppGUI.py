@@ -59,13 +59,11 @@ class WindowMain():
         
 
 
-        guestOneAppData = getMetadataDictionary(defaultAppDir, "appbox", keyList)
+        guestOneAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
 
         listStore = self.builder.get_object("list_store")
         fillIconView(self, guestOneAppData, listStore)
 
-
-        print (getIconThemePath("firefox"))
         
     def item_activated(self,listStore, treePath):
         
@@ -87,20 +85,16 @@ class WindowMain():
         fillIconView(self, guestAppData, listStore)
 
 
+    def on_arch_clicked(self, widget):
+        guestAppData = getMetadataDictionary(defaultAppDir, "arch", keyList)
+        listStore =  self.builder.get_object("list_store")
+        listStore.clear()
+        fillIconView(self, guestAppData, listStore)
+
     def on_fedora_clicked(self, widget):
-        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
+        guestAppData = getMetadataDictionary(defaultAppDir, "arch", keyList)
         listStore =  self.builder.get_object("list_store")
         listStore.clear()
-        fillIconView(self, guestAppData, listStore)
-
-    def on_btn3_clicked(self, widget):
-        listStore =  self.builder.get_object("list_store")
-        listStore.clear()
-
-        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)        
-        fillIconView(self, guestAppData, listStore)
-
-        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)        
         fillIconView(self, guestAppData, listStore)
 
 
@@ -137,8 +131,7 @@ def populateListStore(listStore, data, count):
                 if os.path.isfile(iconStr):                    
                     pixelBuffer = Image.open(iconStr)
 
-            else:    
-                print (iconStr)
+            else:              
                 pixelBuffer = Gtk.IconTheme.get_default().load_icon(iconStr, 48, 0)
 
             lable = data[path]["Name"][0].replace(" (AppBox)", "")  #remove the (appBox) tag from app name
