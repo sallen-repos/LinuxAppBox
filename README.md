@@ -24,4 +24,14 @@ distrobox create fedora --pull --yes --name fedora
 
 
 The contents of the folder urs/share/applications must be extracted into the  
-/urs/share/applications on the users host machine
+/urs/share/applications on the users host machine for the application to view isntalled files!!
+
+
+To run correctly the Application must be executed from the desktop, it cannot be executed from the terminal
+To run the application outside of a terminal double click on the linux-appbox.desktop file!
+
+If the guest app files have been correctly extracted they should be displayed in the iconview
+
+
+
+
