@@ -3,12 +3,12 @@
 #set -m to set job control
 set -m
 
-fastfetch --os-file   $HOME/Projects/LinuxAppBox/GuestSystemFiles/${1}
+#fastfetch --os-file   $HOME/Projects/LinuxAppBox/GuestSystemFiles/${1}
+
+#commented out fastfetch as it' shouldn't be reqiered it should be optional
 
 distrobox-enter $1
 
-#using host exec so fastfetch doesn't have to be installed on every guest
 
-#TODO add option to use neofetch etc - priority low
 
 $SHELL
