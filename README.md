@@ -3,7 +3,7 @@
 ==============================================================
                                                     IMPORTANT!
 ==============================================================
-The program is in "early alpha" and needs very specific 
+The program is in "early alpha" and needs very specific configuration
 ==============================================================
 ENVIRONMENT
 ==============================================================
