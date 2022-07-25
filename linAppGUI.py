@@ -23,7 +23,8 @@ keyList = [ 'Name', 'Categories', 'Description','Exec', 'Icon', 'Actions' ]
 
 #default directory for desktop entry file location
 
-defaultAppDir =  "/usr/share/applications/"
+home = os.path.expanduser('~')
+defaultAppDir =  f"{home}/.local/share/applications/"
 
 dictionary = {}
 
@@ -105,9 +106,13 @@ def getMetadataDictionary(directory, prefix, keyList):
     
     metadataDictionary = {}    
     iterator = glob.iglob(f"{directory}{prefix}-*.desktop")  #searches for files prefixed with appbox- with the .desktop file extention
+
+
+   # 
+  
     for path in iterator :
-        
-        if path not in metadataDictionary: #TODO metadataDictionary is not going to have prior data under current set up and will be empty      
+        os.popen(f"chmod +x {path}")        #chmod as a hack to ensure application is executable, #TODO  implement a more permanent solution
+        if path not in metadataDictionary: 
             data = extractData(keyList, path)
             if data != {}:
                 metadataDictionary.update( {f'{path}': data} )                

@@ -14,9 +14,17 @@ The Application needs preconfiguration to work.
 
 The Application requires a Linux environment to run
 
-The Projects folder must be cloned directly into the users home directory!
+The Projects folder must be cloned directly into the users HOME DIRECTORY!
+If this is not done the expected file paths will be incorrect.
 
-use cd $HOME before cloning!
+so use 'cd $HOME' before cloning!
+
+The contents of the folder urs/share/applications must be copied into the host machines
+ $HOME/.local/share/applications/ 
+
+If this does not happen, the tools to install new applications will not be available.
+
+The user must have read and write permissions to this file and all its contents
 
 ==============================================================
 DEPENDENCIES
@@ -46,8 +54,7 @@ EXECUTION
 ==============================================================
 
 
-The contents of the folder urs/share/applications must be extracted into the  
-/urs/share/applications on the users host machine for the application to view isntalled files!!
+
 
 
 To run correctly the Application must be executed from the desktop, it cannot be executed from the terminal

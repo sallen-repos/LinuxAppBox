@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=AppHub
+Name=arch AppHub
 Type=Application
 Encoding=UTF-8
 Comment=Add/Remove applications
@@ -9,4 +9,4 @@ Exec=/bin/bash -c "distrobox enter arch -e $HOME/Projects/Project/LinuxAppBox/Ap
 Icon=software-store
 Categories=System;
 Terminal=false
-GenericName=fedora Terminal"
+GenericName=Arch AppHub"
