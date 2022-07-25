@@ -3,14 +3,13 @@
 function transactionFeedback {
 
   actionString=("Install" "Uninstall")
-  
 
-
-           if  ! pacman -Q "$1"; then   # if no package is found
-               if [ "$2" = "0" ]; then            # if mode is install and no package
+           if  ! pacman -Q $1; then   #if no package is found
+               if [ "$2" = "0" ]; then            #if mode is install and no package
                        zenity --error --text="An Error occured during ${actionString[mode]}ation!"         
                else 
                        zenity --info --text="${actionString[mode]}ation completed successfully." 
+                       unexportApp "$packageName"   # clean up app after removal
                fi
            else if [ "$2" = "0" ]; then     #if a package is found and if mode is remove
                     zenity --info --text="${actionString[mode]}ation completed successfully." 
@@ -29,6 +28,15 @@ function exportApp {
   distrobox export --app $packageName --export-label "arch-appbox"
 
 }
+
+function unexportApp {
+
+   $packageName=$1
+
+  distrobox export --app $packageName --delete
+
+}
+
 
 
 function transaction {
