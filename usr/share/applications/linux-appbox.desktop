@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=Linux AppBox
-Exec=/bin/bash -c 'cd $HOME/Projects/Project/LinuxAppBox/linAppGUI.py; ./linAppGUI.py' %u
+Exec=/bin/bash -c 'python3 $HOME/Projects/Project/LinuxAppBox/linAppGUI.py ' %u
 Terminal=false
 X-MultipleArgs=false
 Type=Application

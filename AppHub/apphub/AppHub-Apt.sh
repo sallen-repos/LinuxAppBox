@@ -108,7 +108,7 @@ searchType=("apt search $searchTerm" "apt list --installed  | grep -v '^ ' | gre
 
 if [ "$mode" = "0" ];
     then
-searchResult=($(${searchType[mode]}  | grep -v '^ ' | grep / | cut -d'/' -f1))
+searchResult=($(${searchType[mode]} $searchTerm | grep -v '^ ' | grep / | cut -d'/' -f1))
 fi
 
 if [ "$mode" = "1" ];

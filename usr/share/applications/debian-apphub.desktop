@@ -1,12 +1,12 @@
 [Desktop Entry]
-Name=AppHub
+Name=Debian AppHub
 Type=Application
 Encoding=UTF-8
 Comment=Add/Remove applications
 X-MultipleArgs=false
 Hidden=true
-Exec=sh distrobox enter arch -e './home/user/Projects/Project/LinuxAppBox/AppHub/apphub/apphub.sh' %U
+Exec=/bin/bash -c "distrobox enter debian -e $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/AppHub-Apt.sh " %U
 Icon=software-store
 Categories=System;
 Terminal=false
-GenericName=fedora Terminal"
+GenericName=AppHub"

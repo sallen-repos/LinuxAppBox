@@ -78,12 +78,11 @@ class WindowMain():
         Gtk.main_quit()
 
 
-    def on_ubuntu_clicked(self, widget):
-        guestAppData = getMetadataDictionary(defaultAppDir, "ubuntu", keyList)
+    def on_debian_clicked(self, widget):
+        guestAppData = getMetadataDictionary(defaultAppDir, "debian", keyList)
         listStore =  self.builder.get_object("list_store")
         listStore.clear()
         fillIconView(self, guestAppData, listStore)
-
 
     def on_arch_clicked(self, widget):
         guestAppData = getMetadataDictionary(defaultAppDir, "arch", keyList)
@@ -92,7 +91,7 @@ class WindowMain():
         fillIconView(self, guestAppData, listStore)
 
     def on_fedora_clicked(self, widget):
-        guestAppData = getMetadataDictionary(defaultAppDir, "arch", keyList)
+        guestAppData = getMetadataDictionary(defaultAppDir, "fedora", keyList)
         listStore =  self.builder.get_object("list_store")
         listStore.clear()
         fillIconView(self, guestAppData, listStore)

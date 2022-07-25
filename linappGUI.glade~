@@ -50,7 +50,6 @@
             <child>
               <object class="GtkButton" id="arch_btn">
                 <property name="label" translatable="yes">Arch Linux</property>
-                <property name="name">btn2</property>
                 <property name="width_request">150</property>
                 <property name="height_request">50</property>
                 <property name="visible">True</property>
@@ -65,7 +64,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btn3">
+              <object class="GtkButton" id="fedora_btn">
                 <property name="label" translatable="yes">Fedora</property>
                 <property name="width_request">150</property>
                 <property name="height_request">50</property>
@@ -73,7 +72,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="margin_right">12</property>
-                <signal name="clicked" handler="on_btn3_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_fedora_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="x">10</property>

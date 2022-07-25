@@ -1,12 +1,12 @@
 [Desktop Entry]
-Name=ubuntu Terminal
+Name=debian Terminal
 Type=Application
 Encoding=UTF-8
 Comment=CLI Terminal Emulator
 X-MultipleArgs=false
 Hidden=true
-Exec=sh $HOME/Projects/LinuxAppBox/ShellScripts/Guest-Terminal ubuntu %U
+Exec=/bin/bash -c "sh $HOME/Projects/Project/LinuxAppBox/ShellScripts/Guest-Terminal debian" %U
 Icon=utilities-terminal
 Categories=System;TerminalEmulator;
 Terminal=true
-GenericName=ubuntu Terminal"
+GenericName=debian Terminal"
