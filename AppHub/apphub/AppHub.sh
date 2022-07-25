@@ -4,9 +4,9 @@ function transactionFeedback {
 
   actionString=("Install" "Uninstall")
   
-   $packageName=$1
 
-           if  ! pacman -Q "$packageName"; then   # if no package is found
+
+           if  ! pacman -Q "$1"; then   # if no package is found
                if [ "$2" = "0" ]; then            # if mode is install and no package
                        zenity --error --text="An Error occured during ${actionString[mode]}ation!"         
                else 
@@ -67,6 +67,7 @@ selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="S
         		sleep 0.5
         	done     
 
+      kill $instProgPID  #kill infinate loop  
       fi
     fi
 
