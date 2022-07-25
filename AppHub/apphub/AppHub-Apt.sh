@@ -147,6 +147,7 @@ $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapi
 "    Find and Remove Apps"   "1")
 
 
+
 selection=$(zenity --list --title="App-Hub 1.0 Main Menu" --text="Select an Option" --imagelist --ok-label=Select --cancel-label=Exit --print-column=3 --hide-column=3 --hide-header  --separator=' ' --width=350 --height=350 \
    --column=""  \
    --column="     "  \
