@@ -28,14 +28,16 @@ The user must have read and write permissions to this file and all its contents
 DEPENDENCIES
 ==============================================================
 
-It has downstream dependencies in distrobox, podman 
-These must me pre installed on the guest system to run!!
+It has downstream dependencies in distrobox, podman, and zenity
+These must be pre installed on the HOST system to run!!
 
 Distrobox is available from here
 
 https://github.com/89luca89/distrobox
 
-Podman must be installed and is supported by most linux repositories
+zenity can be installed from most official repositories
+
+Podman can be installed and is supported by most linux repositories
 
 Podman must be in rootless mode!
 
@@ -50,9 +52,9 @@ The following configuration steps must be taken
 
 using distrobox the user must create some guests via a distrobox using the following commands
 
-distrobox create --image docker.io/library/ubuntu:latest --pull --yes --name ubuntu
-
 distrobox create --image docker.io/debian:latest --pull --yes --name debian
+
+distrobox create --image docker.io/library/archlinux:latest --pull --yes --name arch
 
 distrobox create fedora --pull --yes --name fedora
 

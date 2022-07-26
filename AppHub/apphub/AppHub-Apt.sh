@@ -4,20 +4,15 @@
 function transactionFeedback {
 
   actionString=("Install" "Uninstall")
-
-           if  ! pacman -Q $1; then   #if no package is found
-               if [ "$2" = "0" ]; then            #if mode is install and no package
-                       zenity --error --text="An Error occured during ${actionString[mode]}ation!"         
+  packageName=$1
+   
+               if [ "$2" = "1" ]; then       
+                       yes | distrobox-host-exec zenity --error --text="An Error occured during ${actionString[mode]}ation!"
+                      distrobox export --app $packageName --export-label "arch-appbox"         
                else 
-                       zenity --info --text="${actionString[mode]}ation completed successfully." 
-                       unexportApp "$packageName"   # clean up app after removal
-               fi
-           else if [ "$2" = "0" ]; then     #if a package is found and if mode is remove
-                    zenity --info --text="${actionString[mode]}ation completed successfully." 
-                    exportApp "$packageName"                      #if an installation is successful export the package
-               else
-                  zenity --error --text="An Error occured during ${actionString[mode]}ation!"  
-               fi
+                       yes | distrobox-host-exec zenity --info --text="${actionString[mode]}ation completed successfully." 
+              distrobox export --app $packageName --export-label "arch-appbox"
+            
           fi
 
 }
@@ -30,21 +25,6 @@ function exportApp {
 
 }
 
-function unexportApp {
-
-   $packageName=$1
-
-  distrobox export --app $packageName --delete
-
-}
-
-function unexportApp {
-
-   $packageName=$1
-
-  distrobox export --app $packageName --delete
-
-}
 
 function transaction {
 #mode to use for action
@@ -60,26 +40,26 @@ preparation=("Download" "Preparation")
 
 searchResult=$2
 
-selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="Select an Application to ${actionString[mode]}" --imagelist --ok-label=Select --cancel-label="Back" --print-column=2  --hide-header   --width=350 --height=350 \
+selected=$(yes | distrobox-host-exec zenity --list --title="App-Hub 1.0 Select Application Menu" --text="Select an Application to ${actionString[mode]}" --imagelist --ok-label=Select --cancel-label="Back" --print-column=2  --hide-header   --width=350 --height=350 \
   --column=""  \
   --column=""  \
    ${searchResult[@]}) || main
 
 
-    apt show $selected | tr -s ' ' | if zenity --text-info --width=500 --height=540  --title="Package Info for $selected "
+    apt show $selected | tr -s ' ' | if yes | distrobox-host-exec zenity --text-info --width=500 --height=540  --title="Package Info for $selected "
     then
      
 
-     if zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350 
+     if yes | distrobox-host-exec zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350 
      then
 
 
 
 
-          recursiveProgress | zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
+          recursiveProgress | yes | distrobox-host-exec zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
 
 
-           kill $prepProgPID 
+          kill -n $instProgPID 
 
 
             sudo apt${action[mode]} $selected
@@ -92,7 +72,7 @@ selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="S
       fi
     fi
     
-    kill $instProgPID  #kill infinate loop  
+    kill -n $instProgPID  #kill infinate loop  
     transactionFeedback "$selected" "$mode"
 
 	main
@@ -116,7 +96,7 @@ function search {
 mode=$1 
 #array for search modes
 
-searchTerm=$(zenity --entry --title="Find Apps." --width=350  --ok-label "Enter" --cancel-label "Back" --text="Type in as many keywords as you want to search for." ) || main
+searchTerm=$(yes | distrobox-host-exec zenity --entry --title="Find Apps." --width=350  --ok-label "Enter" --cancel-label "Back" --text="Type in as many keywords as you want to search for." ) || main
 
 searchType=("apt search $searchTerm" "apt list --installed  | grep -v '^ ' | grep / | cut -d'/' -f1 | grep gnome
  $searchTerm")
@@ -164,7 +144,7 @@ $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapi
 
 
 
-selection=$(zenity --list --title="App-Hub 1.0 Main Menu" --text="Select an Option" --imagelist --ok-label=Select --cancel-label=Exit --print-column=3 --hide-column=3 --hide-header  --separator=' ' --width=350 --height=350 \
+selection=$(yes | distrobox-host-exec zenity --list --title="App-Hub 1.0 Main Menu" --text="Select an Option" --imagelist --ok-label=Select --cancel-label=Exit --print-column=3 --hide-column=3 --hide-header  --separator=' ' --width=350 --height=350 \
    --column=""  \
    --column="     "  \
    --column="     "  \

@@ -2,6 +2,8 @@
 
 function transactionFeedback {
 
+ packageName=$1
+
   actionString=("Install" "Uninstall")
 
            if  ! pacman -Q $1; then   #if no package is found
@@ -25,7 +27,7 @@ function exportApp {
 
    $packageName=$1
 
-  distrobox export --app $packageName --export-label "arch-appbox"
+  distrobox-export --app $packageName --export-label "arch-appbox-"
 
 }
 
@@ -33,7 +35,7 @@ function unexportApp {
 
    $packageName=$1
 
-  distrobox export --app $packageName --delete
+  distrobox-export --app $packageName --delete
 
 }
 
