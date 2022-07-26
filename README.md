@@ -25,7 +25,7 @@ If this does not happen, the tools to install new applications will not be avail
 The user must have read and write permissions to this file and all its contents
 
 ==============================================================
-DEPENDENCIES
+                                                    DEPENDENCIES
 ==============================================================
 
 It has downstream dependencies in distrobox, podman, and zenity
@@ -45,7 +45,7 @@ Instructions on this are placed at the bottom of this page
 
 
 ==============================================================
-SETUP
+                                                               SETUP
 ==============================================================
 
 The following configuration steps must be taken
@@ -59,7 +59,7 @@ distrobox create --image docker.io/library/archlinux:latest --pull --yes --name 
 distrobox create fedora --pull --yes --name fedora
 
 ==============================================================
-EXECUTION
+                                                           EXECUTION
 ==============================================================
 
 
@@ -72,7 +72,7 @@ To run the application outside of a terminal double click on the linux-appbox.de
 If the guest app files have been correctly extracted they should be displayed in the iconview
 
 ==============================================================
-Running AppHub on Host systems
+                                                Running AppHub on Host systems
 ==============================================================
 
 AppHub-Apt can also be ran and tested on ubuntu host systems, without being launched in an AppBox guest
@@ -83,7 +83,7 @@ Enter its directory and type ./AppBox-Apt.sh to run on a ubuntu host.
 
 
 ==============================================================
-ROOTLESS PODMAN
+                                                          ROOTLESS PODMAN
 ==============================================================
 Rootless Podman
 Warning: Rootless Podman relies on the unprivileged user namespace usage (CONFIG_USER_NS_UNPRIVILEGED) which has some serious security implications, see Security#Sandboxing applications for details.
