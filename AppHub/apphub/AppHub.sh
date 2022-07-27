@@ -5,41 +5,41 @@ function transactionFeedback {
  packageName=$1
 
   actionString=("Install" "Uninstall")
-
+           echo -e "Verifying package ${actionString[mode]}ion success"
            if  ! pacman -Q $1; then   #if no package is found
                if [ "$2" = "0" ]; then            #if mode is install and no package
                        zenity --error --text="An Error occured during ${actionString[mode]}ation!"         
                else 
-                       zenity --info --text="${actionString[mode]}ation completed successfully." 
-                       unexportApp "$packageName"   # clean up app after removal
+                    zenity --info --text="${actionString[mode]}ation completed successfully." 
+                      
                fi
            else if [ "$2" = "0" ]; then     #if a package is found and if mode is remove
                     zenity --info --text="${actionString[mode]}ation completed successfully." 
-                    exportApp "$packageName"                      #if an installation is successful export the package
+                    exportToHost "$packageName"                      #if an installation is successful export the package
                else
                   zenity --error --text="An Error occured during ${actionString[mode]}ation!"  
+                   distrobox-export --app $packageName
                fi
           fi
 
 }
 
-function exportApp {
+function exportToHost {
 
-   $packageName=$1
-
-  distrobox-export --app $packageName --export-label "arch-appbox-"
-
-}
-
-function unexportApp {
-
-   $packageName=$1
-
-  distrobox-export --app $packageName --delete
+   packageName=$1
+  # echo -e "Package Name= ${packageName}"
+   distrobox-export --app $packageName
 
 }
 
 
+function removeFromHost {
+
+   packageName=$1
+   #echo -e "Package Name='${1}' "
+   distrobox-export --app $1 --delete
+
+}
 
 function transaction {
 #mode to use for action
@@ -64,11 +64,13 @@ selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="S
     pacman -Si $selected | tr -s ' ' | if zenity --text-info --width=500 --height=540  --title="Package Info for $selected "
     then
      
-
+     echo -e "Package selected: $selected "
      if zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350 
      then
 
       recursiveProgress | zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
+
+           removeFromHost "$packageName"
 
            yes | LC_ALL=en_US.UTF-8 sudo pacman ${action[mode]} $selected
  
