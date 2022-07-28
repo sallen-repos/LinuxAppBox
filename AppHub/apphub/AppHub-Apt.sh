@@ -131,7 +131,7 @@ transaction "$mode" "$searchResult"
 function main {
 
 
-table=(
+table
 $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapirus-Dark/64x64/apps/preferences-system-search.svg  "   Search and Install Apps"   "0"
 $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapirus-Dark/64x64/places/trashcan_empty.svg
 "    Find and Remove Apps"   "1")
