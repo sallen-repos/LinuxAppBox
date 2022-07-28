@@ -7,10 +7,10 @@ function transactionFeedback {
   packageName=$1
    
                if [ "$2" = "1" ]; then       
-                       yes | distrobox-host-exec zenity --error --text="An Error occured during ${actionString[mode]}ation!"
+                       zenity --error --text="An Error occured during ${actionString[mode]}ation!"
                       distrobox export --app $packageName --export-label "arch-appbox"         
                else 
-                       yes | distrobox-host-exec zenity --info --text="${actionString[mode]}ation completed successfully." 
+                       zenity --info --text="${actionString[mode]}ation completed successfully." 
               distrobox export --app $packageName --export-label "arch-appbox"
             
           fi
@@ -40,26 +40,21 @@ preparation=("Download" "Preparation")
 
 searchResult=$2
 
-selected=$(yes | distrobox-host-exec zenity --list --title="App-Hub 1.0 Select Application Menu" --text="Select an Application to ${actionString[mode]}" --imagelist --ok-label=Select --cancel-label="Back" --print-column=2  --hide-header   --width=350 --height=350 \
+selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="Select an Application to ${actionString[mode]}" --imagelist --ok-label=Select --cancel-label="Back" --print-column=2  --hide-header   --width=350 --height=350 \
   --column=""  \
   --column=""  \
    ${searchResult[@]}) || main
 
 
-    apt show $selected | tr -s ' ' | if yes | distrobox-host-exec zenity --text-info --width=500 --height=540  --title="Package Info for $selected "
-    then
+    apt show $selected | tr -s ' ' | zenity --text-info --width=500 --height=540  --title="Package Info for $selected " || search "$mode"
      
 
-     if yes | distrobox-host-exec zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350 
-     then
+      zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350  || search "$mode"   
 
 
 
 
-          recursiveProgress | yes | distrobox-host-exec zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
-
-
-          kill -n $instProgPID 
+          recursiveProgress | zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
 
 
             sudo apt${action[mode]} $selected
@@ -69,8 +64,7 @@ selected=$(yes | distrobox-host-exec zenity --list --title="App-Hub 1.0 Select A
         		sleep 0.5
         	done         
 
-      fi
-    fi
+ 
     
     kill -n $instProgPID  #kill infinate loop  
     transactionFeedback "$selected" "$mode"
@@ -96,7 +90,7 @@ function search {
 mode=$1 
 #array for search modes
 
-searchTerm=$(yes | distrobox-host-exec zenity --entry --title="Find Apps." --width=350  --ok-label "Enter" --cancel-label "Back" --text="Type in as many keywords as you want to search for." ) || main
+searchTerm=$(zenity --entry --title="Find Apps." --width=350  --ok-label "Enter" --cancel-label "Back" --text="Type in as many keywords as you want to search for." ) || main
 
 searchType=("apt search $searchTerm" "apt list --installed  | grep -v '^ ' | grep / | cut -d'/' -f1 | grep gnome
  $searchTerm")
@@ -144,7 +138,7 @@ $HOME/Projects/Project/LinuxAppBox/AppHub/apphub/papirus-icon-theme-master/ePapi
 
 
 
-selection=$(yes | distrobox-host-exec zenity --list --title="App-Hub 1.0 Main Menu" --text="Select an Option" --imagelist --ok-label=Select --cancel-label=Exit --print-column=3 --hide-column=3 --hide-header  --separator=' ' --width=350 --height=350 \
+selection=$(zenity --list --title="App-Hub 1.0 Main Menu" --text="Select an Option" --imagelist --ok-label=Select --cancel-label=Exit --print-column=3 --hide-column=3 --hide-header  --separator=' ' --width=350 --height=350 \
    --column=""  \
    --column="     "  \
    --column="     "  \

@@ -3,7 +3,7 @@
 function transactionFeedback {
 
  packageName=$1
-
+  #determins sucess of transaction to detect errors
   actionString=("Install" "Uninstall")
            echo -e "Verifying package ${actionString[mode]}ion success"
            if  ! pacman -Q $1; then   #if no package is found
@@ -23,20 +23,20 @@ function transactionFeedback {
           fi
 
 }
-
+#exports a guest .desktop file to the host
 function exportToHost {
 
    packageName=$1
-  # echo -e "Package Name= ${packageName}"
+
    distrobox-export --app $packageName
 
 }
 
-
+#deletes a guest .desktop from the host
 function removeFromHost {
 
    packageName=$1
-   #echo -e "Package Name='${1}' "
+
    distrobox-export --app $1 --delete
 
 }
@@ -58,15 +58,15 @@ searchResult=$2
 selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="Select an Application to ${actionString[mode]}" --imagelist --ok-label=Select --cancel-label="Back" --print-column=2  --hide-header   --width=350 --height=350 \
   --column=""  \
   --column=""  \
-   ${searchResult[@]}) || main
+   ${searchResult[@]}) || search "$mode"
 
 
-    pacman -Si $selected | tr -s ' ' | if zenity --text-info --width=500 --height=540  --title="Package Info for $selected "
-    then
+    pacman -Si $selected | tr -s ' ' | zenity --text-info --width=500 --height=540  --title="Package Info for $selected " || search "$mode"
+    
      
-     echo -e "Package selected: $selected "
-     if zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350 
-     then
+
+     zenity --question --text "Are you sure you want to ${actionString[mode]} the application?" --cancel-label="Cancel" --ok-label "${actionStringSimple[mode]} App"  --width=350  || search "$mode"
+
 
       recursiveProgress | zenity  --progress --title="${actionString[mode]} Progress"  --text="${actionString[mode]}ing" --pulsate  --width=550  & instProgPID=$(echo  $!)
 
@@ -78,15 +78,9 @@ selected=$(zenity --list --title="App-Hub 1.0 Select Application Menu" --text="S
         	until [ ! $(pidof sudo) ]; do
         		sleep 0.5
         	done     
-
-      kill $instProgPID  #kill infinate loop  
-      fi
-    fi
-
+  
     kill $instProgPID  #kill infinate loop  
     transactionFeedback "$selected" "$mode"
-
-	main
 	main
 }
 
