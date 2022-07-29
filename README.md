@@ -3,9 +3,11 @@
 ==============================================================
                                                     IMPORTANT!
 ==============================================================
-The program is in "early alpha" and needs very specific configuration
+IF THE DEPENDENCIES ARE NOT SET UP ON YOUR MACHINE, DOWNLOAD
+ A VIRTUAL MACHINE FROM THE PROJECTS RELEASES
+
 ==============================================================
-ENVIRONMENT
+                                                  ENVIRONMENT
 ==============================================================
 
 The Application needs preconfiguration to work.
