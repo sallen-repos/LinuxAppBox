@@ -13,8 +13,6 @@ and hopefully can be run in VMware or VirtualBox (though I haven't been able to 
 
 Inside the virtual machine navigate to /home/guest/Projects/Project/LinuxAppBox
 
-git clone https://gitlab.com/codexMechanicus/LinuxAppBox.git
-
 open terminal and pull latest version of the project
 
 Double click on the .desktop file in the LinuxAppBox folder to launch the application
